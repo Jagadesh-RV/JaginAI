@@ -1,0 +1,30 @@
+{
+  "name": "@jagin/api",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "express": "^4.19.2",
+    "cors": "^2.8.5",
+    "multer": "1.4.5-lts.1",
+    "bullmq": "^5.7.8",
+    "ioredis": "^5.3.2",
+    "@jagin/logger": "workspace:*",
+    "@jagin/config": "workspace:*",
+    "@jagin/database": "workspace:*",
+    "@jagin/validation": "workspace:*",
+    "@jagin/storage": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17",
+    "@types/multer": "^1.4.11",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "latest"
+  }
+}
