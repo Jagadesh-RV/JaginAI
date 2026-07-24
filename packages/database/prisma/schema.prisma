@@ -1,0 +1,138 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Organization {
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  users     User[]
+  workspaces Workspace[]
+}
+
+model Workspace {
+  id             String       @id @default(uuid())
+  name           String
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  collections    Collection[]
+  documents      Document[]
+}
+
+model User {
+  id             String       @id @default(uuid())
+  email          String       @unique
+  name           String?
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id])
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+  uploads        DocumentVersion[]
+}
+
+model Collection {
+  id          String   @id @default(uuid())
+  name        String
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  documents   Document[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  tags        Tag[]
+}
+
+model Tag {
+  id          String   @id @default(uuid())
+  name        String
+  collectionId String?
+  collection  Collection? @relation(fields: [collectionId], references: [id])
+  documents   Document[]
+}
+
+model Document {
+  id          String   @id @default(uuid())
+  title       String
+  workspaceId String
+  workspace   Workspace @relation(fields: [workspaceId], references: [id])
+  collections Collection[]
+  tags        Tag[]
+  versions    DocumentVersion[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model DocumentVersion {
+  id               String   @id @default(uuid())
+  documentId       String
+  document         Document @relation(fields: [documentId], references: [id])
+  versionNumber    Int
+  isActive         Boolean  @default(true)
+  uploadUserId     String
+  uploadUser       User     @relation(fields: [uploadUserId], references: [id])
+  originalFilename String
+  mimeType         String
+  fileSize         Int
+  storageKey       String   // Object storage locator
+  processingJobId  String?  @unique
+  processingJob    ProcessingJob?
+  chunks           Chunk[]
+  metadata         Metadata?
+  createdAt        DateTime @default(now())
+}
+
+model Metadata {
+  id                String   @id @default(uuid())
+  documentVersionId String   @unique
+  documentVersion   DocumentVersion @relation(fields: [documentVersionId], references: [id])
+  language          String?
+  author            String?
+  ocrConfidence     Float?
+  extractedData     Json?
+}
+
+model ProcessingJob {
+  id                String   @id @default(uuid())
+  documentVersionId String   @unique
+  documentVersion   DocumentVersion @relation(fields: [documentVersionId], references: [id])
+  status            String   @default("QUEUED") // QUEUED, PROCESSING, COMPLETED, FAILED
+  ocrRequired       Boolean  @default(false)
+  ocrStatus         String?
+  parseStatus       String?
+  chunkStatus       String?
+  attempts          Int      @default(0)
+  error             String?
+  startedAt         DateTime?
+  completedAt       DateTime?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model Chunk {
+  id                String   @id @default(uuid())
+  documentVersionId String
+  documentVersion   DocumentVersion @relation(fields: [documentVersionId], references: [id])
+  content           String
+  section           String?
+  heading           String?
+  pageNumber        Int?
+  tokenCount        Int?
+  position          Int
+  createdAt         DateTime @default(now())
+}
+
+model AuditLog {
+  id        String   @id @default(uuid())
+  action    String
+  entity    String
+  entityId  String
+  userId    String?
+  details   Json?
+  createdAt DateTime @default(now())
+}

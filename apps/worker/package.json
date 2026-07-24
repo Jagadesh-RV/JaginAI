@@ -1,0 +1,21 @@
+{
+  "name": "@jagin/worker",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "lint": "eslint \"src/**/*.ts\"",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@jagin/config": "workspace:*",
+    "@jagin/database": "workspace:*",
+    "@jagin/logger": "workspace:*",
+    "bullmq": "^5.7.8",
+    "ioredis": "^5.3.2"
+  },
+  "devDependencies": {
+    "typescript": "latest"
+  }
+}
