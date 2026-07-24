@@ -24,6 +24,7 @@
     "husky": "latest",
     "prettier": "latest",
     "rimraf": "latest",
+    "tsx": "^4.23.1",
     "turbo": "latest",
     "typescript": "latest"
   },
