@@ -6,27 +6,30 @@
     "dev": "turbo run dev",
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "lint:fix": "turbo run lint -- --fix",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json,yaml}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json,yaml}\"",
     "test": "turbo run test",
     "typecheck": "turbo run typecheck",
-    "format": "prettier --write \"**/*.{ts,tsx,md,json,yaml}\"",
     "clean": "turbo run clean && rimraf node_modules",
     "prepare": "husky"
   },
   "devDependencies": {
-    "@commitlint/cli": "latest",
-    "@commitlint/config-conventional": "latest",
+    "@commitlint/cli": "^21.2.1",
+    "@commitlint/config-conventional": "^21.2.0",
     "@types/node": "^26.1.1",
     "@typescript-eslint/eslint-plugin": "^7.0.0",
     "@typescript-eslint/parser": "^7.0.0",
-    "eslint": "^8.57.0",
+    "eslint": "^8.57.1",
     "eslint-config-prettier": "^10.1.8",
     "eslint-plugin-import": "^2.32.0",
-    "husky": "latest",
-    "prettier": "latest",
+    "husky": "^9.1.7",
+    "lint-staged": "^17.2.0",
+    "prettier": "^3.9.5",
     "rimraf": "latest",
     "tsx": "^4.23.1",
     "turbo": "latest",
-    "typescript": "latest"
+    "typescript": "^7.0.2"
   },
   "engines": {
     "node": ">=20.0.0",
@@ -36,5 +39,14 @@
   "dependencies": {
     "@prisma/client": "^7.8.0",
     "prisma": "^7.8.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yml,yaml}": [
+      "prettier --write"
+    ]
   }
 }
