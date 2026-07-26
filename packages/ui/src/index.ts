@@ -4,3 +4,5 @@ export const theme = {
     background: '#ffffff',
   }
 };
+
+export * from './button';

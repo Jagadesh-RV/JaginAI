@@ -3,15 +3,15 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "lint": "turbo lint",
-    "lint:fix": "turbo lint -- --fix",
+    "dev": "pnpm exec turbo dev",
+    "build": "pnpm exec turbo build",
+    "lint": "pnpm exec turbo lint",
+    "lint:fix": "pnpm exec turbo lint -- --fix",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "typecheck": "turbo typecheck",
-    "test": "turbo test",
-    "clean": "turbo clean",
+    "typecheck": "pnpm exec turbo typecheck",
+    "test": "pnpm exec turbo test",
+    "clean": "pnpm exec turbo clean",
     "prepare": "husky"
   },
   "devDependencies": {
