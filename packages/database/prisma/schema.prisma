@@ -4,6 +4,7 @@ generator client {
 
 datasource db {
   provider = "sqlite"
+  url      = "file:./dev.db"
 }
 
 model Organization {
@@ -95,7 +96,7 @@ model Metadata {
   language          String?
   author            String?
   ocrConfidence     Float?
-  extractedData     Json?
+  extractedData     String?
 }
 
 model ProcessingJob {
@@ -134,6 +135,6 @@ model AuditLog {
   entity    String
   entityId  String
   userId    String?
-  details   Json?
+  details   String?
   createdAt DateTime @default(now())
 }
