@@ -1,6 +1,6 @@
 import express from 'express';
 import cors from 'cors';
-import { logger } from '@jagin/logger';
+import { logger, httpLogger } from '@jagin/logger';
 import { env } from '@jagin/config';
 
 import { documentsRouter } from './modules/documents/documents.routes';
@@ -10,6 +10,7 @@ import { collectionsRouter } from './modules/collections/collections.routes';
 const app = express();
 app.use(cors());
 app.use(express.json());
+app.use(httpLogger);
 
 app.get('/', (_req, res) => {
   res.json({ status: 'ok' });
