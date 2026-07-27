@@ -125,11 +125,14 @@ importers:
         specifier: ^4.19.2
         version: 4.22.2
       ioredis:
-        specifier: ^5.3.2
+        specifier: ^5.4.1
         version: 5.11.1
       multer:
-        specifier: 1.4.5-lts.1
+        specifier: ^1.4.5-lts.1
         version: 1.4.5-lts.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
     devDependencies:
       '@types/cors':
         specifier: ^2.8.17
@@ -261,6 +264,10 @@ importers:
         version: 7.0.2
 
   packages/types:
+    dependencies:
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
