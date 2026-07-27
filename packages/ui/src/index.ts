@@ -1,8 +1,5 @@
-export const theme = {
-  colors: {
-    primary: '#0070f3',
-    background: '#ffffff',
-  }
-};
-
 export * from './button';
+export * from './card';
+export * from './input';
+export * from './theme-provider';
+export * from './theme-toggle';
