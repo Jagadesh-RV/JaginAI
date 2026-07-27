@@ -9,8 +9,11 @@ import { processingRouter } from './modules/processing/processing.routes';
 import { collectionsRouter } from './modules/collections/collections.routes';
 import { errorHandler } from './middleware/error-handler';
 import { requireAuth } from './middleware/auth';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './swagger';
 
 const app = express();
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.use(cors());
 app.use(express.json());
 app.use(httpLogger);
