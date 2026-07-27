@@ -1,9 +1,5 @@
-import { PrismaClient } from '@prisma/client';
+import { prisma } from '@jagin/database';
 import bcrypt from 'bcrypt';
-
-const prisma = new PrismaClient({
-  datasourceUrl: 'file:../../packages/database/dev.db'
-});
 
 async function main() {
   console.log('Seeding database...');

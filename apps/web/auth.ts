@@ -1,12 +1,7 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
-import { PrismaClient } from "@prisma/client";
-
-// In Next.js server components/routes, we want to share the client
-const prisma = new PrismaClient({
-  datasourceUrl: process.env.DATABASE_URL || 'file:../../packages/database/dev.db'
-});
+import { prisma } from "@jagin/database";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
