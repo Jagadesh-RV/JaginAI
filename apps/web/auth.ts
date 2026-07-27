@@ -2,13 +2,10 @@ import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 import bcrypt from "bcrypt";
 import { prisma } from "@jagin/database";
+import authConfig from "./auth.config";
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
-  secret: process.env.AUTH_SECRET,
-  session: { 
-    strategy: "jwt",
-    maxAge: 24 * 60 * 60, // 24 hours
-  },
+  ...authConfig,
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -40,21 +37,5 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         };
       }
     })
-  ],
-  callbacks: {
-    async jwt({ token, user }) {
-      if (user) {
-        token.id = user.id;
-        token.orgId = (user as any).orgId;
-      }
-      return token;
-    },
-    async session({ session, token }) {
-      if (token) {
-        session.user.id = token.id as string;
-        (session.user as any).orgId = token.orgId;
-      }
-      return session;
-    }
-  }
+  ]
 });
