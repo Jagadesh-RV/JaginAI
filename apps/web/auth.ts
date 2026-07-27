@@ -1,9 +1,19 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import bcrypt from "bcrypt";
+import { PrismaClient } from "@prisma/client";
+
+// In Next.js server components/routes, we want to share the client
+const prisma = new PrismaClient({
+  datasourceUrl: process.env.DATABASE_URL || 'file:../../packages/database/dev.db'
+});
 
 export const { handlers, signIn, signOut, auth } = NextAuth({
   secret: process.env.AUTH_SECRET,
-  session: { strategy: "jwt" },
+  session: { 
+    strategy: "jwt",
+    maxAge: 24 * 60 * 60, // 24 hours
+  },
   providers: [
     CredentialsProvider({
       name: "Credentials",
@@ -12,17 +22,27 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
         password: { label: "Password", type: "password" }
       },
       async authorize(credentials) {
-        // Mocking user verification. We will hook this up to Prisma later.
-        if (credentials?.email === "admin@jagin.ai" && credentials?.password === "admin") {
-          return {
-            id: "00000000-0000-0000-0000-000000000000",
-            name: "Admin User",
-            email: "admin@jagin.ai",
-            // We can attach custom properties here
-            orgId: "11111111-1111-1111-1111-111111111111",
-          };
-        }
-        return null;
+        if (!credentials?.email || !credentials?.password) return null;
+
+        const user = await prisma.user.findUnique({
+          where: { email: credentials.email as string }
+        });
+
+        if (!user) return null;
+
+        const isPasswordValid = await bcrypt.compare(
+          credentials.password as string, 
+          user.password
+        );
+
+        if (!isPasswordValid) return null;
+
+        return {
+          id: user.id,
+          name: user.name,
+          email: user.email,
+          orgId: user.organizationId,
+        };
       }
     })
   ],
