@@ -3,9 +3,9 @@ import cors from 'cors';
 import { logger } from '@jagin/logger';
 import { env } from '@jagin/config';
 
-import documentsRouter from './routes/documents';
-import processingRouter from './routes/processing';
-import collectionsRouter from './routes/collections';
+import { documentsRouter } from './modules/documents/documents.routes';
+import { processingRouter } from './modules/processing/processing.routes';
+import { collectionsRouter } from './modules/collections/collections.routes';
 
 const app = express();
 app.use(cors());
