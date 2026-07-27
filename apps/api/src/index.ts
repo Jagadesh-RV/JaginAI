@@ -8,6 +8,7 @@ import { documentsRouter } from './modules/documents/documents.routes';
 import { processingRouter } from './modules/processing/processing.routes';
 import { collectionsRouter } from './modules/collections/collections.routes';
 import { errorHandler } from './middleware/error-handler';
+import { requireAuth } from './middleware/auth';
 
 const app = express();
 app.use(cors());
@@ -18,9 +19,10 @@ app.get('/', (_req, res) => {
   res.json({ status: 'ok' });
 });
 
-app.use('/documents', documentsRouter);
-app.use('/processing', processingRouter);
-app.use('/collections', collectionsRouter);
+// Protect API routes
+app.use('/documents', requireAuth, documentsRouter);
+app.use('/processing', requireAuth, processingRouter);
+app.use('/collections', requireAuth, collectionsRouter);
 
 app.use(errorHandler);
 
