@@ -18,4 +18,3 @@ router.get('/', validate(GetDocumentsSchema), (req, res) => documentsController.
 
 export { router as documentsRouter };
 
-export { router as documentsRouter };
