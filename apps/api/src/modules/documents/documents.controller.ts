@@ -16,12 +16,14 @@ export class DocumentsController {
       return;
     }
 
-    const result = await documentsService.uploadAndCreateDocument(file);
+    const user = req.user!;
+    const result = await documentsService.uploadAndCreateDocument(file, user.id, user.orgId);
     res.json(result);
   }
 
   async getAll(req: Request, res: Response) {
-    const docs = await documentsService.getAllDocuments();
+    const user = req.user!;
+    const docs = await documentsService.getAllDocuments(user.orgId);
     res.json(docs);
   }
 }
